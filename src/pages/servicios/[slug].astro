@@ -1,0 +1,161 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getServicios, getServicioBySlug } from '../../lib/wordpress';
+import type { Servicio } from '../../lib/wordpress';
+import '../../styles/global.css';
+
+export async function getStaticPaths() {
+  const servicios = await getServicios();
+  
+  return servicios.map((servicio) => ({
+    params: { slug: servicio.slug },
+    props: { servicio },
+  }));
+}
+
+interface Props {
+  servicio: Servicio;
+}
+
+const { servicio } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  'zap': 'M13 2L3 14h8l-1 8 10-12h-8l1-8z',
+  'route': 'M3 12h18M3 6h18M3 18h18',
+  'droplet': 'M12 2.69l5.66 5.66a8 8 0 11-11.31 0z',
+  'scale': 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707'
+};
+
+const bgImages: Record<string, string> = {
+  'lineas-electricas': '/images/lineas-electricas.webp',
+  'carreteras': '/images/carreteras.webp',
+  'acueductos': '/images/acueductos.webp',
+  'otras-obras': '/images/otra-obras.webp'
+};
+
+const servicios = await getServicios();
+const otrosServicios = servicios.filter(s => s.slug !== servicio.slug);
+---
+
+<Layout title={`${servicio.title.rendered} - Cetraconsultores`} description={servicio.acf.descripcion_corta}>
+  <Navbar />
+  
+  <main>
+    <section class="relative pt-32 pb-20 bg-cover bg-center bg-no-repeat" style={`background-image: url('${bgImages[servicio.slug] || bgImages['otras-obras']}');`}>
+      <div class="absolute inset-0 bg-gradient-to-br from-[#001B44]/85 to-[#001B44]/70"></div>
+      
+      <div class="container-custom relative z-10">
+        <div class="max-w-4xl mx-auto text-center text-white">
+          <a href="/#servicios" class="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Volver a servicios
+          </a>
+          
+          <div class="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconMap[servicio.acf.icono] || iconMap['scale']} />
+            </svg>
+          </div>
+          
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
+            {servicio.title.rendered}
+          </h1>
+          
+          <p class="text-xl text-white/90 leading-relaxed drop-shadow-md">
+            {servicio.acf.descripcion_corta}
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="py-20 bg-white">
+      <div class="container-custom">
+        <div class="max-w-4xl mx-auto">
+          <div class="prose prose-lg max-w-none">
+            <p class="text-lg text-gray-700 leading-relaxed">
+              {servicio.acf.descripcion_larga}
+            </p>
+          </div>
+          
+          <div class="mt-12 bg-gray-50 rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">
+              ¿Por qué elegirnos para este tipo de proyecto?
+            </h2>
+            
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-secondary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-700">Conocemos los valores reales de mercado porque trabajamos 13 años para empresas constructoras</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-secondary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-700">Sabemos exactamente qué presupuestos manejan las empresas para indemnizaciones</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-secondary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-700">Te acompañamos en todo el proceso hasta conseguir un acuerdo justo</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-secondary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-700">La primera consulta es completamente gratuita y sin compromiso</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="mt-12 text-center">
+            <a href="/#contacto" class="btn-primary text-lg">
+              Solicitar Asesoría Gratuita
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    {otrosServicios.length > 0 && (
+      <section class="py-20 bg-gray-50">
+        <div class="container-custom">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Otros servicios que ofrecemos
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {otrosServicios.map((otroServicio) => (
+              <a href={`/servicios/${otroServicio.slug}`} class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 group">
+                <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconMap[otroServicio.acf.icono] || iconMap['scale']} />
+                  </svg>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">
+                  {otroServicio.title.rendered}
+                </h3>
+                
+                <p class="text-gray-600 leading-relaxed">
+                  {otroServicio.acf.descripcion_corta}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+  
+  <Footer />
+</Layout>

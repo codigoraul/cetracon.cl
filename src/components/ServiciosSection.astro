@@ -1,0 +1,65 @@
+---
+import { getServicios } from '../lib/wordpress';
+
+const servicios = await getServicios();
+
+const iconMap: Record<string, string> = {
+  'zap': 'M13 2L3 14h8l-1 8 10-12h-8l1-8z',
+  'route': 'M3 12h18M3 6h18M3 18h18',
+  'droplet': 'M12 2.69l5.66 5.66a8 8 0 11-11.31 0z',
+  'scale': 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707'
+};
+
+const bgImages: Record<string, string> = {
+  'lineas-electricas': '/images/lineas-electricas.webp',
+  'carreteras': '/images/carreteras.webp',
+  'acueductos': '/images/acueductos.webp',
+  'otras-obras': '/images/otra-obras.webp'
+};
+---
+
+<section id="servicios" class="py-20 bg-white scroll-mt-20">
+  <div class="container-custom">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Tipos de Obras que Asesoramos
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Negociamos indemnizaciones justas para todo tipo de infraestructura
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {servicios.map((servicio) => (
+        <div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
+          <div class="absolute inset-0 bg-cover bg-center" style={`background-image: url('${bgImages[servicio.slug] || bgImages['otras-obras']}');`}></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 group-hover:from-white/90 group-hover:via-white/85 group-hover:to-white/90 transition-all duration-300"></div>
+          
+          <div class="relative z-10 p-6">
+            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconMap[servicio.acf.icono] || iconMap['scale']} />
+              </svg>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">
+              <a href={`/servicios/${servicio.slug}`} >
+              {servicio.title.rendered}</a>
+            </h3>
+            
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              {servicio.acf.descripcion_corta}
+            </p>
+            
+            <a href={`/servicios/${servicio.slug}`} class="inline-flex items-center text-primary font-semibold hover:text-secondary transition-colors">
+              Ver más
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
