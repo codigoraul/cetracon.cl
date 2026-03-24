@@ -27,9 +27,8 @@ async function fixPaths(dir) {
       // Corregir enlaces internos que tienen /# en lugar de solo #
       content = content.replace(/href="\/#/g, 'href="#');
       
-      // Corregir enlace del logo para que recargue la página actual sin cambiar de carpeta
-      // Buscar específicamente el enlace del logo y cambiarlo
-      content = content.replace(/<a href="\/" class="flex items-center">/g, '<a href="#" onclick="window.scrollTo(0,0); return false;" class="flex items-center">');
+      // Corregir enlace del logo para que use index.html relativo (sin /)
+      content = content.replace(/<a href="\/index\.html" class="flex items-center">/g, '<a href="index.html" class="flex items-center">');
       
       // Para subdirectorios, necesitamos rutas relativas diferentes
       const depth = fullPath.split('/').length - 'dist'.split('/').length - 1;
@@ -48,6 +47,7 @@ async function fixPaths(dir) {
         
         // Enlaces a la página principal desde subdirectorios
         content = content.replace(/href="\/#/g, `href="${prefix}#`);
+        content = content.replace(/href="index\.html"/g, `href="${prefix}index.html"`);
       }
       
       await writeFile(fullPath, content, 'utf-8');
