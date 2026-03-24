@@ -19,6 +19,9 @@ async function fixPaths(dir) {
       content = content.replace(/src="\/images\//g, 'src="./images/');
       content = content.replace(/href="\/favicon/g, 'href="./favicon');
       
+      // Reemplazar enlaces a servicios
+      content = content.replace(/href="\/servicios\//g, 'href="./servicios/');
+      
       // Reemplazar rutas en estilos inline (background-image)
       content = content.replace(/url\('\/images\//g, "url('./images/");
       content = content.replace(/url\("\/images\//g, 'url("./images/');
