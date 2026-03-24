@@ -49,8 +49,17 @@ async function fixPaths(dir) {
         content = content.replace(/url\(\.\/images\//g, `url(${prefix}images/`);
         
         // Enlaces a la página principal desde subdirectorios
-        content = content.replace(/href="\/#/g, `href="${prefix}#`);
+        content = content.replace(/href="#servicios"/g, `href="${prefix}index.html#servicios"`);
+        content = content.replace(/href="#nosotros"/g, `href="${prefix}index.html#nosotros"`);
+        content = content.replace(/href="#proceso"/g, `href="${prefix}index.html#proceso"`);
+        content = content.replace(/href="#contacto"/g, `href="${prefix}index.html#contacto"`);
         content = content.replace(/href="index\.html"/g, `href="${prefix}index.html"`);
+        
+        // Enlaces entre servicios (de /servicios/carreteras a /servicios/acueductos)
+        content = content.replace(/href="\/lineas-electricas"/g, 'href="../lineas-electricas"');
+        content = content.replace(/href="\/carreteras"/g, 'href="../carreteras"');
+        content = content.replace(/href="\/acueductos"/g, 'href="../acueductos"');
+        content = content.replace(/href="\/otras-obras"/g, 'href="../otras-obras"');
       }
       
       await writeFile(fullPath, content, 'utf-8');
