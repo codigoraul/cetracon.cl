@@ -17,12 +17,20 @@ Para que el despliegue automático funcione, necesitas configurar los siguientes
 ### Secrets requeridos:
 
 **Secret 1:**
+- Name: `FTP_SERVER`
+- Value: `ftp.cetracon.cl`
+
+**Secret 2:**
 - Name: `FTP_USERNAME`
 - Value: `conexion@cetracon.cl`
 
-**Secret 2:**
+**Secret 3:**
 - Name: `FTP_PASSWORD`
 - Value: `conexioncetra`
+
+**Secret 4:**
+- Name: `FTP_SERVER_DIR`
+- Value: `prueba/`
 
 ## Cómo funciona
 
