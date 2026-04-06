@@ -2,9 +2,16 @@
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description = "Defendemos tu propiedad frente a obras de infraestructura. 13 años de experiencia negociando indemnizaciones justas." } = Astro.props;
+const { 
+  title, 
+  description = "Defendemos tu propiedad frente a obras de infraestructura. 13 años de experiencia negociando indemnizaciones justas.",
+  keywords = "servidumbre eléctrica, línea de transmisión, servidumbre de tránsito, servidumbre hidráulica, acueducto, indemnización, negociación, obras de infraestructura, asesoría legal, defensa de propiedades, Chile",
+  canonicalUrl = "https://cetracon.cl/prueba/"
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -15,6 +22,30 @@ const { title, description = "Defendemos tu propiedad frente a obras de infraest
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Keywords -->
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Cetraconsultores" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Cetraconsultores" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="CL" />
+    <meta name="geo.placename" content="Chile" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

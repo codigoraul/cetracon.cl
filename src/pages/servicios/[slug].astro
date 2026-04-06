@@ -37,9 +37,25 @@ const bgImages: Record<string, string> = {
 
 const servicios = await getServicios();
 const otrosServicios = servicios.filter(s => s.slug !== servicio.slug);
+
+// Keywords específicas por tipo de servicio
+const keywordsMap: Record<string, string> = {
+  'lineas-electricas': 'servidumbre eléctrica, línea de transmisión, línea eléctrica, torres de alta tensión, servidumbres eléctricas, tendido de cables, indemnización servidumbre eléctrica, negociación línea transmisión, Chile',
+  'carreteras': 'servidumbre de tránsito, carreteras, autopistas, caminos rurales, ampliaciones viales, conexiones, expropiación carretera, indemnización vial, negociación carreteras, Chile',
+  'acueductos': 'servidumbre hidráulica, acueducto, ductos de agua, canales de riego, sistemas de distribución, servidumbre agua, indemnización acueducto, negociación hidráulica, Chile',
+  'otras-obras': 'gasoductos, oleoductos, fibra óptica, proyectos especiales, obras de infraestructura, servidumbres, indemnización obras, negociación infraestructura, Chile'
+};
+
+const keywords = keywordsMap[servicio.slug] || 'servidumbre, indemnización, negociación, obras de infraestructura, Chile';
+const canonicalUrl = `https://cetracon.cl/prueba/servicios/${servicio.slug}/`;
 ---
 
-<Layout title={`${servicio.title.rendered} - Cetraconsultores`} description={servicio.acf.descripcion_corta}>
+<Layout 
+  title={`${servicio.title.rendered} - Cetraconsultores`} 
+  description={servicio.acf.descripcion_corta}
+  keywords={keywords}
+  canonicalUrl={canonicalUrl}
+>
   <Navbar />
   
   <main>
