@@ -113,9 +113,9 @@ const servicios = await getServicios();
 </section>
 
 <script>
-  const form = document.getElementById('contacto-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const formMessage = document.getElementById('form-message');
+  const form = document.getElementById('contacto-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  const formMessage = document.getElementById('form-message') as HTMLDivElement | null;
 
   if (form && submitBtn && formMessage) {
     form.addEventListener('submit', async (e) => {
