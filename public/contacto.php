@@ -7,9 +7,9 @@ $SITE_URL = (isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) &&
   ? ('https://' . $_SERVER['HTTP_HOST'])
   : 'https://cetracon.cl';
 
-$TO_EMAILS_BASE = 'codigoraul@gmail.com, contacto@cetraconsultores.cl';
+$TO_EMAILS_BASE = 'codigoraul@gmail.com, contacto@cetracon.cl, aguamar26@gmail.com';
 $TO_EMAIL = $TO_EMAILS_BASE;
-$FROM_EMAIL = 'contacto@cetraconsultores.cl';
+$FROM_EMAIL = 'contacto@cetracon.cl';
 $FROM_NAME = 'Cetraconsultores';
 $BCC_EMAILS = '';
 
