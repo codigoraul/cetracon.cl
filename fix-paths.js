@@ -33,6 +33,9 @@ async function fixPaths(dir) {
       // Corregir enlace del logo para que use index.html relativo (sin /)
       content = content.replace(/<a href="\/index\.html" class="flex items-center">/g, '<a href="index.html" class="flex items-center">');
       
+      // Corregir action del formulario de contacto
+      content = content.replace(/action="\.\/contacto\.php"/g, 'action="./contacto.php"');
+      
       // Para subdirectorios, necesitamos rutas relativas diferentes
       const depth = fullPath.split('/').length - 'dist'.split('/').length - 1;
       if (depth > 0) {
